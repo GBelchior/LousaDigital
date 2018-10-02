@@ -6,6 +6,7 @@
 package lousadigital.core;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -32,7 +33,7 @@ public class DrawingArea extends DigitalBoardOverlay
         drawingGraphics.setComposite(AlphaComposite.Src);
 
         drawingGraphics.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-        
+
         //drawingGraphics.setColor(new Color(0, 0, 0, 0));
         //drawingGraphics.fillRect(0, 0, rect.width, rect.height);
     }
@@ -46,6 +47,12 @@ public class DrawingArea extends DigitalBoardOverlay
     private void paintCursor(Graphics2D destGraphics, CameraCursor cursor)
     {
         Color currentColor = cursor.getColor();
+        Color borderColor = Color.WHITE;
+        
+        if (currentColor.equals(borderColor))
+        {
+            borderColor = Color.BLACK;
+        }
 
         int ovalX = (int) (cursor.getX() - cursor.getWidth() / 2f);
         int ovalY = (int) (cursor.getY() - cursor.getHeight() / 2f);
@@ -68,6 +75,10 @@ public class DrawingArea extends DigitalBoardOverlay
         {
             destGraphics.setColor(currentColor);
             destGraphics.fillOval(ovalX, ovalY, ovalWidth, ovalHeight);
+            
+            destGraphics.setColor(borderColor);
+            destGraphics.setStroke(new BasicStroke(2));
+            destGraphics.drawOval(ovalX, ovalY, ovalWidth, ovalHeight);
         }
     }
 }
